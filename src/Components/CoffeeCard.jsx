@@ -1,9 +1,11 @@
-import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
   const { _id, name, quantity, supplier, taste, category, details, photo } = coffee;
 
   const handleDeleteBtn=_id=>{
+    console.log(_id);
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -27,6 +29,8 @@ const CoffeeCard = ({ coffee }) => {
                     'Your file has been deleted.',
                     'success'
                   )
+              const remaining = coffees.filter(cof=>cof._id !==_id);
+              setCoffees(remaining);
             }
           
           })
@@ -50,7 +54,9 @@ const CoffeeCard = ({ coffee }) => {
           <div className="card-actions justify-end">
             <div className="join join-vertical space-y-3">
               <button className="btn join-item ">View</button>
+              <Link to={`/updateCoffee/${_id}`}>
               <button className="btn join-item">Edit</button>
+              </Link>
               <button 
               onClick={()=>handleDeleteBtn(_id)}
               className="btn hover:bg-red-400 bg-red-600 text-white">Delete</button>
